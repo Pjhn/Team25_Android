@@ -1,5 +1,6 @@
 package com.kakaotech.team25.ui.main.companion
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.kakaotech.team25.domain.ReservationStatus.*
@@ -49,7 +50,11 @@ class LiveCompanionViewModel @Inject constructor(
 
     fun updateAccompanyInfo(reservationId: String) {
         viewModelScope.launch {
-            _accompanyInfo.value = accompanyRepository.getAccompanyFlow(reservationId).firstOrNull()
+            val result = accompanyRepository.getAccompanyInfo(reservationId)
+            result.fold(
+                onSuccess = { accompanies -> _accompanyInfo.value = accompanies },
+                onFailure = { exception -> Log.e("UpdateAccompanyInfo", "Error fetching accompany info", exception)}
+            )
         }
     }
 }

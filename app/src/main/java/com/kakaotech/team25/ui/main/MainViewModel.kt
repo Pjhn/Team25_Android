@@ -89,8 +89,11 @@ class MainViewModel @Inject constructor(
 
     fun updateAccompanyInfo(reservationId: String) {
         viewModelScope.launch {
-            _accompanyInfo.value =
-                getAccompanyInfoUseCase.invoke(reservationId)?.lastOrNull()
+            val result = getAccompanyInfoUseCase.invoke(reservationId)
+            result.fold(
+                onSuccess = { accompanies -> _accompanyInfo.value = accompanies.sortedBy { it.statusDate }.last() },
+                onFailure = { exception -> Log.e("UpdateAccompanyInfo", "Error fetching accompany info", exception)}
+            )
         }
     }
 }

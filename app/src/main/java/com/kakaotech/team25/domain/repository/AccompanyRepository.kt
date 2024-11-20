@@ -5,5 +5,5 @@ import com.kakao.vectormap.LatLng
 import kotlinx.coroutines.flow.Flow
 
 interface AccompanyRepository {
-    fun getAccompanyFlow(reservationId: String): Flow<List<AccompanyInfo>>
+    suspend fun getAccompanyInfo(reservationId: String): Result<List<AccompanyInfo>>
 }

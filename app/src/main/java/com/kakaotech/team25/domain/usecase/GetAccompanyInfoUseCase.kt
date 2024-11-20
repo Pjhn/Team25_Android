@@ -8,7 +8,7 @@ import javax.inject.Inject
 class GetAccompanyInfoUseCase @Inject constructor(
     private val accompanyRepository: AccompanyRepository
 ) {
-    suspend operator fun invoke(reservationId: String): List<AccompanyInfo>? {
-        return accompanyRepository.getAccompanyFlow(reservationId).firstOrNull()?.sortedBy { it.statusDate }
+    suspend operator fun invoke(reservationId: String): Result<List<AccompanyInfo>> {
+        return accompanyRepository.getAccompanyInfo(reservationId)
     }
 }
